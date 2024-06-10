@@ -11,7 +11,7 @@ const http_log = require("./middlewares/http-logger");
 const server_log = require("./utils/server-log");
 
 // Middlewares
-app.use(cors());
+app.use(cors(config.cors));
 app.use(helmet());
 app.use(http_log());
 
