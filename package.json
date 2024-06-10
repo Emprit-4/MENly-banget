@@ -7,7 +7,8 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --verbose index.js"
+    "dev": "nodemon --verbose index.js",
+    "start": "node --use-largepages=silent index.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
