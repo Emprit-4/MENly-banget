@@ -1,0 +1,46 @@
+{
+  "name": "nama_proyek",
+  "version": "0.0.1",
+  "description": "",
+  "homepage": "",
+  "license": "",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --verbose index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "helmet": "^7.1.0",
+    "lodash": "^4.17.21",
+    "mongoose": "^8.4.1",
+    "morgan": "^1.10.0",
+    "winston": "^3.13.0"
+  },
+  "keywords": [
+    "application",
+    "counseling"
+  ],
+  "author": {
+    "name": "Fachry Azriel F.",
+    "email": "rabisunarddhy@gmail.com",
+    "url": "https://github.com/rabenardi"
+  },
+  "contributors": [
+    {
+      "name": "Nabila Robina",
+      "email": "bisliarosyid@gmail.com"
+    }
+  ],
+  "devDependencies": {
+    "@eslint/js": "^9.4.0",
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-standard": "^17.1.0",
+    "globals": "^15.4.0",
+    "prettier": "^3.2.5"
+  }
+}
