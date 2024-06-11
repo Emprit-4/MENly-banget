@@ -27,6 +27,8 @@ module.exports = [
       "import/no-extraneous-dependencies": "off",
       "import/no-dynamic-require": "off",
       "global-require": "off",
+      "semi": "warn",
+      "new-cap": "warn"
     }
   }
 ];

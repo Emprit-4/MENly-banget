@@ -1,6 +1,6 @@
 const { transports, format } = require("winston");
 const { join, resolve } = require("path");
-const { isEmpty } = require("lodash");
+const { isEmpty: _is_empty } = require("lodash");
 const { logger: config } = require("./config");
 
 const transports_list = {};
@@ -38,7 +38,7 @@ function createTransport(name, file_path, custom_config = {}) {
         let file_transport_config = custom_config;
 
         // Cek apakah config custom ada; jika tidak ada, pakai templat yang ada
-        if (isEmpty(file_transport_config)) {
+        if (_is_empty(file_transport_config)) {
             file_transport_config = { // atau ini
                 format: format.combine(
                     format.logstash(),
