@@ -26,7 +26,8 @@ function createTransport(name, file_path, custom_config = {}) {
             format: format.combine(
                 colors,
                 format.label({ label: name, message: true }),
-                format.simple()
+                format.simple(),
+                format.errors({ stack: true })
             ),
             handleExceptions: false,
             level: "debug",

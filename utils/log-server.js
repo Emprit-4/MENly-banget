@@ -1,10 +1,10 @@
 const { find: _find } = require("lodash");
-const { debug: log, warn } = require("./logger").ProcessLog;
+const { ProcessLog } = require("./logger");
 const config = require("./config");
 
 
 module.exports = function server_log() {
-    log("Server berjalan");
+    ProcessLog.debug("Server berjalan");
     
     // Cetak alamat website sesuai ip lokal
     if (process.env.NODE_ENV === "development") {
@@ -26,7 +26,7 @@ module.exports = function server_log() {
         if (!address) return;
         address = `http://${address}:${config.server.port}`; // update
 
-        log(`Alamat lokal: ${address}`);
-        warn("Alamat lokal tidak menggunakan https");
+        ProcessLog.debug(`Alamat lokal: ${address}`);
+        ProcessLog.warn("Alamat lokal tidak menggunakan https");
     }
 };

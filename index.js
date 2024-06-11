@@ -6,11 +6,12 @@ const cors = require("cors");
 // Configs dan logger
 const config = require("./utils/config");
 const http_log = require("./middlewares/http-logger");
-const server_log = require("./utils/server-log");
+const server_log = require("./utils/log-server");
 
 // Setup
 const app = express();
 const db = require("./utils/db-adapter");
+db.connect(process.env.MONGODB_URI);
 
 // Middlewares
 app.use(cors(config.cors));

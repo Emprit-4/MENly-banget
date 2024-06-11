@@ -1,5 +1,5 @@
 const winston = require("winston");
-const transports = require("./transports");
+const transports = require("./log-transports");
 
 const logger_instances = {};
 
