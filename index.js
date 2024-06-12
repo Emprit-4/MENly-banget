@@ -2,6 +2,7 @@
 const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
+const db = require("./utils/db-adapter");
 
 // Configs dan logger
 const config = require("./utils/config");
@@ -10,7 +11,6 @@ const server_log = require("./utils/log-server");
 
 // Setup
 const app = express();
-const db = require("./utils/db-adapter");
 db.connect(process.env.MONGODB_URI);
 
 // Middlewares

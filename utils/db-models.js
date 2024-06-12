@@ -14,6 +14,6 @@ read(folder).forEach(file => {
 });
 
 const len = Object.keys(models).length;
-DBLog.info(`Terbaca ${len} model`);
+DBLog.debug(`Terbaca ${len} model`);
 
-module.exports = models;
+module.exports = { models, len };

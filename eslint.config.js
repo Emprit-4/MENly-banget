@@ -11,8 +11,14 @@ const compat = new FlatCompat({
 });
 
 module.exports = [
-  {files: ["**/*.js"], languageOptions: {sourceType: "commonjs"}},
-  {languageOptions: { globals: globals.browser }},
+  {
+    files: ["**/*.js"], 
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: "commonjs", 
+      globals: globals.browser,
+    },
+  },
   
   // confignya masuk di sini
   eslint.configs.recommended, // eslint:recommended
@@ -24,9 +30,9 @@ module.exports = [
     rules: {
       "camelcase": "off",
       "qoutes": "off",
-      "import/no-extraneous-dependencies": "off",
-      "import/no-dynamic-require": "off",
-      "global-require": "off",
+      "import/no-extraneous-dependencies": "warn",
+      "import/no-dynamic-require": "warn",
+      "global-require": "warn",
       "semi": "warn",
       "new-cap": "warn"
     }

@@ -1,66 +1,89 @@
 const mongoose = require("mongoose");
-const { DBLog } = require("./logger");
-const models = require("./db-models");
 const { isEmpty: _is_empty, isObject: _is_object } = require("lodash");
+const { DBLog } = require("./logger");
+const { models, len: models_count } = require("./db-models");
 
 // Pembuatan adapter untuk database
 // Untuk memudahkan maintaining dan proses CRUD
 class DatabaseAdapter {
-    static #db_uri = "";
-    static #is_up = false;
+    static opt = {
+        models_count
+    };
 
     static connect(uri) {
-        this.#db_uri = uri;
+        this.opt.uri = uri;
         const db = mongoose.connection;
         
-        mongoose.connect(this.#db_uri);
+        mongoose.connect(this.opt.uri);
         db.on("error", e => DBLog.error(e));
-        db.once("open", () => {
-            DBLog.info(`Berhasil terkoneksi ke ${this.#db_uri}`);
-            this.#is_up = true;
-        });
+        db.once("open", () => DBLog.info(`Berhasil terkoneksi ke ${this.opt.uri}`));
 
         return true;
-    }
+    };
 
-    static write(collection, doc) {
+    static choose(collection) {
         // Cek2: collection nggak ada di model
         if (!(collection in models)) {
             throw new ReferenceError(`"${collection}" tidak ada dalam daftar model yang dibuat`);
         }
         
-        // Ambil model, buat instancenya, lalu tulis ke db
         const cur_collection = models[collection];
+        
+        return {
+            cur_collection,
+            write(doc) { return DatabaseAdapter.write(cur_collection, doc); },
+            find(query) { return DatabaseAdapter.find(cur_collection, query); },
+            update(query, doc) { return DatabaseAdapter.update(cur_collection, query, doc); },
+            delete(doc) { return DatabaseAdapter.delete(cur_collection, doc); },
+            watch(doc, ...args) { return DatabaseAdapter.watch(cur_collection, ...args); },
+        };
+    };
+    
+    static write(collection, doc) {
+        // Ambil model, buat instancenya, lalu tulis ke db
+        const cur_collection = collection;
         const instance = new cur_collection(doc);
         instance.save();
         
         return doc;
-    }
+    };
 
-    static setEventEmmiter(collection, callbacks) {
-        // Cek apakah callbacks sebuah object ({})
-        if (!_is_object(callbacks)) {
-            throw new TypeError(`callbacks bukan sebuah object ({})`);
-        }
+    static async find(collection, query) {
+        // Ambil model, buat instancenya, lalu tulis ke db
+        const cur_collection = collection;
+        
+        const res = await cur_collection.find(query)
+        return res;
+    };
+
+    static async update(collection, query, doc) {
+        // Ambil model, buat instancenya, lalu tulis ke db
+        const cur_collection = collection;
+        
+        const res = await cur_collection.updateMany(query, doc);
+        return res;
+    };
+
+    static async delete(collection, query) {
+        // Ambil model, buat instancenya, lalu tulis ke db
+        const cur_collection = collection;
+        
+        await cur_collection.deleteMany(query);
+        return true;
+    };
+
+    static watch(collection, callback, arg_pipelines = [], arg_options = {}) {
+        // Cek apakah pipeline atau opt diberikan
+        const pipelines = _is_empty(arg_pipelines) ? undefined : arg_pipelines;
+        const options = _is_empty(arg_options) ? undefined : arg_options;
 
         // Pasang observer ke collection yang diinginkan
-        const collection_observer = models[collection].watch();
-        const callback_keys = Object.keys(callbacks);
+        const collection_observer = collection.watch(pipelines, options);
+        collection_observer.on("change", callback);
         
-        for (let i = 0; i < callback_keys.length; i+=1) {
-            collection_observer.on(
-                callback_keys[i], 
-                callbacks[callback_keys[i]]
-            );
-        }
-
         return true;
-    }
-}
-
-// Untuk find, delete, dan update bisa pakai proxy
-// Soalnya mongoose udah ngasih method buat semua itu
-
+    };
+};
 
 // Ekspor
 module.exports = DatabaseAdapter;
