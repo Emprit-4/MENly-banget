@@ -17,6 +17,7 @@ if (!("NODE_ENV" in process.env)) {
 
 process.env.NODE_ENV = process.env.NODE_ENV.trim();
 
+// dibaca dari root
 read(folder).forEach(file => {
     const fileName = parse(file).name;
     const filePath = resolve(join(folder, file));

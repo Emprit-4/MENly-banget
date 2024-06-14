@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { isEmpty } = require("lodash");
-const { DBLog } = require("./logger");
-const { models, modelsCount } = require("./db-models");
+const { DBLog } = require("../logger");
+const { models, modelsCount } = require("./models");
 
 // Pembuatan adapter untuk database
 // Untuk memudahkan maintaining dan proses CRUD
@@ -24,7 +24,7 @@ class DatabaseAdapter {
         db.once("open", () => DBLog.info(`Berhasil terkoneksi ke ${this.opt.uri}`));
 
         return true;
-    };
+    }
 
     static choose(collection) {
         // Cek2: collection nggak ada di model
@@ -40,9 +40,9 @@ class DatabaseAdapter {
             find(query) { return DatabaseAdapter.find(curCollection, query); },
             update(query, doc) { return DatabaseAdapter.update(curCollection, query, doc); },
             delete(doc) { return DatabaseAdapter.delete(curCollection, doc); },
-            watch(doc, ...args) { return DatabaseAdapter.watch(curCollection, ...args); },
+            watch(...args) { return DatabaseAdapter.watch(curCollection, ...args); },
         };
-    };
+    }
     
     static write(collection, doc) {
         // Ambil model, buat instancenya, lalu tulis ke db
@@ -51,7 +51,7 @@ class DatabaseAdapter {
         instance.save();
         
         return doc;
-    };
+    }
 
     static async find(collection, query) {
         // Ambil model, buat instancenya, lalu tulis ke db
@@ -59,7 +59,7 @@ class DatabaseAdapter {
         
         const res = await curCollection.find(query);
         return res;
-    };
+    }
 
     static async update(collection, query, doc) {
         // Ambil model, buat instancenya, lalu tulis ke db
@@ -67,7 +67,7 @@ class DatabaseAdapter {
         
         const res = await curCollection.updateMany(query, doc);
         return res;
-    };
+    }
 
     static async delete(collection, query) {
         // Ambil model, buat instancenya, lalu tulis ke db
@@ -75,7 +75,7 @@ class DatabaseAdapter {
         
         await curCollection.deleteMany(query);
         return true;
-    };
+    }
 
     static watch(collection, callback, argPipelines = [], argOptions = {}) {
         // Cek apakah pipeline atau opt diberikan
@@ -87,7 +87,7 @@ class DatabaseAdapter {
         collectionObserver.on("change", callback);
         
         return true;
-    };
+    }
 };
 
 // Ekspor

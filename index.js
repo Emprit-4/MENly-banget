@@ -2,12 +2,13 @@
 const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
-const db = require("./utils/db-adapter");
 
-// Configs dan logger
-const config = require("./utils/config");
+const config = require("./utils/util-config");
+const db = require("./utils/util-db");
+
+// Impor logger
 const httpLog = require("./middlewares/http-logger");
-const serverLog = require("./utils/log-server");
+const startupLog = require("./utils/startup-log");
 
 // Setup
 const app = express();
@@ -22,4 +23,4 @@ app.use(httpLog());
 app.get("/emprit_check", (req, res) => res.status(200).send("Hallo"));
 
 // Akhirnya, saatnya listen.
-app.listen(config.server.port, config.server.address, serverLog);
+app.listen(config.server.port, config.server.address, startupLog);

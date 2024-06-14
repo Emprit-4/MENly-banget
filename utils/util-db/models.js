@@ -1,6 +1,6 @@
 const { readdirSync: read } = require("fs");
 const { join, resolve, parse } = require("path");
-const { DBLog } = require("./logger");
+const { DBLog } = require("../logger");
 
 const folder = "models";
 const models = {};
