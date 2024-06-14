@@ -1,16 +1,21 @@
 const mongoose = require("mongoose");
-const { isEmpty: _is_empty, isObject: _is_object } = require("lodash");
+const { isEmpty } = require("lodash");
 const { DBLog } = require("./logger");
-const { models, len: models_count } = require("./db-models");
+const { models, modelsCount } = require("./db-models");
 
 // Pembuatan adapter untuk database
 // Untuk memudahkan maintaining dan proses CRUD
 class DatabaseAdapter {
     static opt = {
-        models_count
+        modelsCount
     };
 
     static connect(uri) {
+        if(!uri) {
+            DBLog.warn("uri tidak diberikan, sehingga tidak akan tersambung ke database");
+            return false;
+        }
+
         this.opt.uri = uri;
         const db = mongoose.connection;
         
@@ -27,22 +32,22 @@ class DatabaseAdapter {
             throw new ReferenceError(`"${collection}" tidak ada dalam daftar model yang dibuat`);
         }
         
-        const cur_collection = models[collection];
+        const curCollection = models[collection];
         
         return {
-            cur_collection,
-            write(doc) { return DatabaseAdapter.write(cur_collection, doc); },
-            find(query) { return DatabaseAdapter.find(cur_collection, query); },
-            update(query, doc) { return DatabaseAdapter.update(cur_collection, query, doc); },
-            delete(doc) { return DatabaseAdapter.delete(cur_collection, doc); },
-            watch(doc, ...args) { return DatabaseAdapter.watch(cur_collection, ...args); },
+            curCollection,
+            write(doc) { return DatabaseAdapter.write(curCollection, doc); },
+            find(query) { return DatabaseAdapter.find(curCollection, query); },
+            update(query, doc) { return DatabaseAdapter.update(curCollection, query, doc); },
+            delete(doc) { return DatabaseAdapter.delete(curCollection, doc); },
+            watch(doc, ...args) { return DatabaseAdapter.watch(curCollection, ...args); },
         };
     };
     
     static write(collection, doc) {
         // Ambil model, buat instancenya, lalu tulis ke db
-        const cur_collection = collection;
-        const instance = new cur_collection(doc);
+        const curCollection = collection;
+        const instance = new curCollection(doc);
         instance.save();
         
         return doc;
@@ -50,36 +55,36 @@ class DatabaseAdapter {
 
     static async find(collection, query) {
         // Ambil model, buat instancenya, lalu tulis ke db
-        const cur_collection = collection;
+        const curCollection = collection;
         
-        const res = await cur_collection.find(query)
+        const res = await curCollection.find(query);
         return res;
     };
 
     static async update(collection, query, doc) {
         // Ambil model, buat instancenya, lalu tulis ke db
-        const cur_collection = collection;
+        const curCollection = collection;
         
-        const res = await cur_collection.updateMany(query, doc);
+        const res = await curCollection.updateMany(query, doc);
         return res;
     };
 
     static async delete(collection, query) {
         // Ambil model, buat instancenya, lalu tulis ke db
-        const cur_collection = collection;
+        const curCollection = collection;
         
-        await cur_collection.deleteMany(query);
+        await curCollection.deleteMany(query);
         return true;
     };
 
-    static watch(collection, callback, arg_pipelines = [], arg_options = {}) {
+    static watch(collection, callback, argPipelines = [], argOptions = {}) {
         // Cek apakah pipeline atau opt diberikan
-        const pipelines = _is_empty(arg_pipelines) ? undefined : arg_pipelines;
-        const options = _is_empty(arg_options) ? undefined : arg_options;
+        const pipelines = isEmpty(argPipelines) ? undefined : argPipelines;
+        const options = isEmpty(argOptions) ? undefined : argOptions;
 
         // Pasang observer ke collection yang diinginkan
-        const collection_observer = collection.watch(pipelines, options);
-        collection_observer.on("change", callback);
+        const collectionObserver = collection.watch(pipelines, options);
+        collectionObserver.on("change", callback);
         
         return true;
     };

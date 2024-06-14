@@ -18,10 +18,10 @@ if (!("NODE_ENV" in process.env)) {
 process.env.NODE_ENV = process.env.NODE_ENV.trim();
 
 read(folder).forEach(file => {
-    const filename = parse(file).name;
-    const filepath = resolve(join(folder, file));
+    const fileName = parse(file).name;
+    const filePath = resolve(join(folder, file));
     
-    config[filename] = require(filepath);
+    config[fileName] = require(filePath);
 });
 
 // Finalisasi, agar objek tidak bisa diubah-ubah

@@ -1,9 +1,10 @@
+const babelParser = require("@babel/eslint-parser");
 const globals = require("globals");
 const { FlatCompat } = require("@eslint/eslintrc");
 
 // Configs (khusus yang berbentuk flat config)
 const eslint = require("@eslint/js");
-const prettier_config = require("eslint-config-prettier");
+const prettierConfig = require("eslint-config-prettier");
 
 // Ngubah eslintrc jadi flat config
 const compat = new FlatCompat({
@@ -11,24 +12,33 @@ const compat = new FlatCompat({
 });
 
 module.exports = [
+  // opsi eslint
   {
     files: ["**/*.js"], 
     languageOptions: {
-      ecmaVersion: 2022,
       sourceType: "commonjs", 
       globals: globals.browser,
+
+      parser: babelParser, // ngatur parser
+      parserOptions: {
+        requireConfigFile: false,
+        babelOptions: {
+            babelrc: false,
+            configFile: false,
+        }
+      },
     },
   },
-  
+
   // confignya masuk di sini
   eslint.configs.recommended, // eslint:recommended
   ...compat.extends("eslint-config-airbnb-base"), // eslint-config-airbnb-base
-  prettier_config, // eslint-config-prettier
+  prettierConfig, // eslint-config-prettier
 
   // config custom
   {
     rules: {
-      "camelcase": "off",
+      "camelcase": "warn",
       "qoutes": "off",
       "import/no-extraneous-dependencies": "warn",
       "import/no-dynamic-require": "warn",
@@ -36,5 +46,5 @@ module.exports = [
       "semi": "warn",
       "new-cap": "warn"
     }
-  }
+  },
 ];

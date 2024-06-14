@@ -1,9 +1,9 @@
 const { transports, format } = require("winston");
 const { join, resolve } = require("path");
-const { isEmpty: _is_empty } = require("lodash");
+const { isEmpty } = require("lodash");
 const { logger: config } = require("./config");
 
-const transports_list = {};
+const transportsList = {};
 
 // Mengatur warna-warna yang akan digunakan dalam logging console
 const colors = format.colorize({
@@ -17,11 +17,11 @@ const colors = format.colorize({
 });
 
 // Membuat fungsi createTransport
-function createTransport(name, file_path, custom_config = {}) {
-    transports_list[name] = [];
+function createTransport(name, filePath, customConfig = {}) {
+    transportsList[name] = [];
 
     // Logger console dibuat sesederhana mungkin untuk meningkatkan keterbacaan
-    transports_list[name].push(
+    transportsList[name].push(
         new transports.Console({
             format: format.combine(
                 colors,
@@ -35,18 +35,18 @@ function createTransport(name, file_path, custom_config = {}) {
     );
     
     // Logger berkas untuk production
-    if (file_path && process.env.NODE_ENV === "production") {
-        let file_transport_config = custom_config;
+    if (filePath && process.env.NODE_ENV === "production") {
+        let transportConfig = customConfig;
 
         // Cek apakah config custom ada; jika tidak ada, pakai templat yang ada
-        if (_is_empty(file_transport_config)) {
-            file_transport_config = { // atau ini
+        if (isEmpty(transportConfig)) {
+            transportConfig = { // atau ini
                 format: format.combine(
                     format.logstash(),
                     format.timestamp(),
                     format.errors({ stack: true })
                 ),
-                filename: file_path,
+                filename: filePath,
                 maxsize: 1_048_576, // 1 MB dalam bytes
                 maxFiles: 5,
                 handleExceptions: true,
@@ -54,19 +54,19 @@ function createTransport(name, file_path, custom_config = {}) {
             };
         }
 
-        const info_transport = new transports.File(file_transport_config);
-        transports_list[name].push(info_transport);
+        const transportInfo = new transports.File(transportConfig);
+        transportsList[name].push(transportInfo);
     }
 };
 
 // Insialisasi transport dari yang ada di config.js
 const filename = Object.keys(config.filename);
-let file_path;
+let filePath;
 
 for(let i = 0, len = filename.length; i < len; i+=1) {
-    file_path = resolve(join(config.folder, config.filename[filename[i]]));
+    filePath = resolve(join(config.folder, config.filename[filename[i]]));
     
-    createTransport(filename[i], file_path);
+    createTransport(filename[i], filePath);
 }
 
-module.exports = transports_list;
+module.exports = transportsList;

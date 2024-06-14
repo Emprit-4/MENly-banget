@@ -7,13 +7,13 @@ const models = {};
 
 // baca semua models (bukan schema) yang ada di folder models
 read(folder).forEach(file => {
-    const filename = parse(file).name;
-    const filepath = resolve(join(folder, file));
+    const fileName = parse(file).name;
+    const filePath = resolve(join(folder, file));
     
-    models[filename] = require(filepath);
+    models[fileName] = require(filePath);
 });
 
-const len = Object.keys(models).length;
-DBLog.debug(`Terbaca ${len} model`);
+const modelsCount = Object.keys(models).length;
+DBLog.debug(`Terbaca ${modelsCount} model`);
 
-module.exports = { models, len };
+module.exports = { models, modelsCount };
