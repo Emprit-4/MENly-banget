@@ -6,6 +6,9 @@ const { FlatCompat } = require("@eslint/eslintrc");
 const eslint = require("@eslint/js");
 const prettierConfig = require("eslint-config-prettier");
 
+// Plugins
+const stylisticJS = require("@stylistic/eslint-plugin-js");
+
 // Ngubah eslintrc jadi flat config
 const compat = new FlatCompat({
   baseDirectory: __dirname,
@@ -14,19 +17,15 @@ const compat = new FlatCompat({
 module.exports = [
   // opsi eslint
   {
-    files: ["**/*.js"], 
+    files: ["**/*.js"],
+    ignores: ["dist/*"],
     languageOptions: {
       sourceType: "commonjs", 
       globals: globals.browser,
-
       parser: babelParser, // ngatur parser
-      parserOptions: {
-        requireConfigFile: false,
-        babelOptions: {
-            babelrc: false,
-            configFile: false,
-        }
-      },
+    },
+    plugins: {
+      "@stylistic/js": stylisticJS,
     },
   },
 
@@ -39,8 +38,8 @@ module.exports = [
   {
     rules: {
       "camelcase": "warn",
-      "qoutes": "off",
-      "import/no-extraneous-dependencies": "warn",
+      "@stylistic/js/quotes": ["error", "double", {allowTemplateLiterals: true}],
+      "import/no-extraneous-dependencies": "off",
       "import/no-dynamic-require": "warn",
       "global-require": "warn",
       "semi": "warn",

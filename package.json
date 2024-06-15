@@ -7,8 +7,9 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --verbose index.js",
-    "start": "node --use-largepages=silent index.js"
+    "start:dev": "nodemon --verbose index.js",
+    "build:prod": "webpack --config webpack.production.js",
+    "start:prod": "node --use-largepages=silent ./dist/server.prod.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -31,13 +32,23 @@
   },
   "contributors": [],
   "devDependencies": {
+    "@babel/core": "^7.24.7",
     "@babel/eslint-parser": "^7.24.7",
+    "@babel/preset-env": "^7.24.7",
     "@eslint/js": "^9.4.0",
+    "@stylistic/eslint-plugin-js": "^2.2.0",
+    "babel-loader": "^9.1.3",
     "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard": "^17.1.0",
     "globals": "^15.4.0",
-    "prettier": "^3.2.5"
+    "javascript-obfuscator": "^4.1.0",
+    "prettier": "^3.2.5",
+    "webpack": "^5.92.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-merge": "^5.10.0",
+    "webpack-node-externals": "^3.0.0",
+    "webpack-obfuscator": "^3.5.1"
   }
 }

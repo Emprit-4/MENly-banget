@@ -23,15 +23,13 @@ function getIPAddress() {
 }
 
 function serverLog() {
-    if (process.env.NODE_ENV !== "development") {
-        ProcessLog.debug("Server berjalan");
-        return;
-    }
+    ProcessLog.info("Server berjalan");
+    
     
     // Cetak alamat website sesuai ip lokal pertama
     const address = getIPAddress()[0];
     
-    if(address) {
+    if(process.env.NODE_ENV === "development" && address) {
         const text = `http://${address}:${config.server.port}`;
 
         ProcessLog.debug(`Alamat lokal pertama: ${text}`);
