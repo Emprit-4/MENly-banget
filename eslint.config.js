@@ -14,19 +14,12 @@ const compat = new FlatCompat({
 module.exports = [
   // opsi eslint
   {
-    files: ["**/*.js"], 
+    files: ["**/*.js"],
+    ignores: ["./dist/*"],
     languageOptions: {
       sourceType: "commonjs", 
       globals: globals.browser,
-
       parser: babelParser, // ngatur parser
-      parserOptions: {
-        requireConfigFile: false,
-        babelOptions: {
-            babelrc: false,
-            configFile: false,
-        }
-      },
     },
   },
 
