@@ -1,0 +1,9 @@
+# Sesuai yang tertulis di docs
+
+build
+dist
+coverage
+**/.git
+**/.svn
+**/.hg
+**/node_modules

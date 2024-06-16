@@ -11,7 +11,7 @@ const models = require("../../models");
 // read(folder).forEach(file => {
 //     const fileName = parse(file).name;
 //     // const filePath = resolve(join(folder, file));
-    
+
 //     models[fileName] = require(resolve(join(folder, file)));
 // });
 

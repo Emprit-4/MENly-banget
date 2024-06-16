@@ -1,5 +1,5 @@
 const config = {
-    origin: ""
+    origin: "",
 };
 
 module.exports = config;

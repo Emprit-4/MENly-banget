@@ -31,14 +31,18 @@ options.console = function consoleOptions(name) {
 
 // Opsi untuk file stream
 options.file = function fileOptions(filePath) {
-    return { // atau ini
+    return {
+        // atau ini
         format: format.combine(
-            format.logstash(),
             format.timestamp(),
+            format.logstash(),
             format.errors({ stack: true })
         ),
+        // options: {
+        //     flags: "w", // log terdahulu dibersihkan
+        // },
         filename: filePath,
-        maxsize: 1_048_576, // 1 MB dalam bytes
+        maxsize: 2_097_152, // 2 MB dalam bytes
         maxFiles: 5,
         handleExceptions: true,
         level: "info",

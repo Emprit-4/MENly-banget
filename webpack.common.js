@@ -1,6 +1,8 @@
 const path = require("path");
+const process = require("process");
 
 module.exports = {
+    context: process.cwd(), // ngatur context ke root dir
     entry: "./index.js",
     cache: true,
     target: "node",
@@ -9,8 +11,17 @@ module.exports = {
         publicPath: "/",
         filename: "server.prod.js",
     },
-    resolve: { 
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                exclude: [/test\.js$/], // mencegah berkas2 .test.js untuk dibundle
+                loader: "babel-loader",
+            },
+        ],
+    },
+    resolve: {
         extensions: [".js"],
-        symlinks: false,
+        symlinks: false, // symlink nggak dipake, jadi matiin aja
     },
 };
