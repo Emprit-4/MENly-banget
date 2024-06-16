@@ -6,7 +6,7 @@ const loggerInstances = {};
 // Membuat instances dari transpor2 yang telah dibuat
 const keys = Object.keys(transports);
 
-for(let i = 0, len = keys.length; i < len; i+=1) {
+for (let i = 0, len = keys.length; i < len; i += 1) {
     loggerInstances[keys[i]] = winston.createLogger({
         transports: transports[keys[i]],
         exitOnError: true,

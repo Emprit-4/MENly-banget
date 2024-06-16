@@ -12,7 +12,7 @@
 require("dotenv").config();
 const config = require("../../configs");
 
-// Just to be sure: variabel env ditrim. 
+// Just to be sure: variabel env ditrim.
 if (!("NODE_ENV" in process.env)) {
     throw new Error("Tidak ada NODE_ENV");
 }

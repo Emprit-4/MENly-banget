@@ -3,7 +3,7 @@ const config = {
     filename: {
         HTTPLog: "request-all.log",
         ProcessLog: "process-all.log",
-        DBLog: "database-all.log"
+        DBLog: "database-all.log",
     },
 };
 

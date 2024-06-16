@@ -7,9 +7,12 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "start:dev": "nodemon --verbose index.js",
+    "dev": "npm-run-all -p build:dev start:dev",
     "build:prod": "webpack --config webpack.production.js",
-    "start:prod": "node --use-largepages=silent ./dist/server.prod.js"
+    "start:prod": "node --use-largepages=silent ./dist/server.prod.js",
+    "build:dev": "webpack --config webpack.development.js",
+    "start:dev": "nodemon --verbose ./dist/server.prod.js --watch ./dist/server.prod.js",
+    "test": "jest"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -21,10 +24,7 @@
     "morgan": "^1.10.0",
     "winston": "^3.13.0"
   },
-  "keywords": [
-    "application",
-    "counseling"
-  ],
+  "keywords": [],
   "author": {
     "name": "Fachry Azriel F.",
     "email": "rabisunarddhy@gmail.com",
@@ -33,17 +33,15 @@
   "contributors": [],
   "devDependencies": {
     "@babel/core": "^7.24.7",
-    "@babel/eslint-parser": "^7.24.7",
     "@babel/preset-env": "^7.24.7",
-    "@eslint/js": "^9.4.0",
-    "@stylistic/eslint-plugin-js": "^2.2.0",
+    "@eslint/js": "^9.5.0",
     "babel-loader": "^9.1.3",
-    "eslint": "^8.57.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-config-standard": "^17.1.0",
-    "globals": "^15.4.0",
+    "clean-webpack-plugin": "^4.0.0",
+    "eslint": "^9.5.0",
+    "globals": "^15.5.0",
     "javascript-obfuscator": "^4.1.0",
+    "jest": "^29.7.0",
+    "npm-run-all": "^4.1.5",
     "prettier": "^3.2.5",
     "webpack": "^5.92.0",
     "webpack-cli": "^5.1.4",

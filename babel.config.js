@@ -6,6 +6,6 @@ module.exports = function babelConfig(api) {
 
     return {
         presets,
-        plugins
+        plugins,
     };
 };

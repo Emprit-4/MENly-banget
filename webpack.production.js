@@ -1,5 +1,6 @@
 const nodeExternals = require("webpack-node-externals");
 const WebpackObfuscator = require("webpack-obfuscator");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const { merge } = require("webpack-merge");
 
 const common = require("./webpack.common");
@@ -26,20 +27,20 @@ const options = {
         stringArrayRotate: true,
         stringArrayShuffle: true,
         stringArrayWrappersCount: 5,
-        stringArrayWrappersChainedCalls: true,    
+        stringArrayWrappersChainedCalls: true,
         stringArrayWrappersParametersMaxCount: 5,
         stringArrayWrappersType: "function",
         stringArrayThreshold: 1,
         transformObjectKeys: true,
-        unicodeEscapeSequence: false
+        unicodeEscapeSequence: false,
     },
 };
 
 module.exports = merge(common, {
     mode: "production",
     plugins: [
-        new WebpackObfuscator (options.obsfuscator, []),
-        
+        new WebpackObfuscator(options.obsfuscator, []),
+        new CleanWebpackPlugin(),
     ],
     externals: [nodeExternals()],
 });

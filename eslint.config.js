@@ -1,49 +1,34 @@
-const babelParser = require("@babel/eslint-parser");
 const globals = require("globals");
-const { FlatCompat } = require("@eslint/eslintrc");
+const pluginJS = require("@eslint/js");
 
-// Configs (khusus yang berbentuk flat config)
-const eslint = require("@eslint/js");
-const prettierConfig = require("eslint-config-prettier");
-
-// Plugins
-const stylisticJS = require("@stylistic/eslint-plugin-js");
-
-// Ngubah eslintrc jadi flat config
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
+// Cuma yang essensial aja
 module.exports = [
-  // opsi eslint
-  {
-    files: ["**/*.js"],
-    ignores: ["dist/*"],
-    languageOptions: {
-      sourceType: "commonjs", 
-      globals: globals.browser,
-      parser: babelParser, // ngatur parser
+    {
+        files: ["**/*.js"],
+        ignores: ["dist/*"],
+        languageOptions: {
+            sourceType: "commonjs",
+            globals: globals.node,
+        },
     },
-    plugins: {
-      "@stylistic/js": stylisticJS,
+
+    pluginJS.configs.recommended,
+
+    {
+        rules: {
+            "object-shorthand": "warn",
+            camelcase: "error",
+            curly: "error",
+            eqeqeq: "error",
+            "no-console": "warn",
+            "no-empty-function": "error",
+            "no-eq-null": "error",
+            "no-eval": "error",
+            "no-plusplus": "error",
+            "no-shadow": "error",
+            "no-useless-rename": "error",
+            "prefer-const": "error",
+            "prefer-object-spread": "error",
+        },
     },
-  },
-
-  // confignya masuk di sini
-  eslint.configs.recommended, // eslint:recommended
-  ...compat.extends("eslint-config-airbnb-base"), // eslint-config-airbnb-base
-  prettierConfig, // eslint-config-prettier
-
-  // config custom
-  {
-    rules: {
-      "camelcase": "warn",
-      "@stylistic/js/quotes": ["error", "double", {allowTemplateLiterals: true}],
-      "import/no-extraneous-dependencies": "off",
-      "import/no-dynamic-require": "warn",
-      "global-require": "warn",
-      "semi": "warn",
-      "new-cap": "warn"
-    }
-  },
 ];
