@@ -1,5 +1,5 @@
 const config = {
-    folder: ".logs",
+    folder: "logs",
     filename: {
         HTTPLog: "request-all.log",
         ProcessLog: "process-all.log",

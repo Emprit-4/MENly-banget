@@ -12,7 +12,7 @@ const isProd = process.env.NODE_ENV === "production";
 // Opsi build umum yang tidak env-specific
 const common = {
     context: process.cwd(), // ngatur context ke root dir
-    entry: "./index.js",
+    entry: "./src/index.js",
     cache: true,
     target: "node",
     output: {
