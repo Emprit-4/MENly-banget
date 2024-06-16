@@ -5,11 +5,14 @@ const pluginJS = require("@eslint/js");
 module.exports = [
     {
         files: ["**/*.js"],
-        ignores: ["dist/*"],
         languageOptions: {
             sourceType: "commonjs",
             globals: globals.node,
         },
+    },
+
+    {
+        ignores: ["dist/"],
     },
 
     pluginJS.configs.recommended,
