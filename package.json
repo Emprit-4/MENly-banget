@@ -30,7 +30,18 @@
         "email": "rabisunarddhy@gmail.com",
         "url": "https://github.com/rabenardi"
     },
-    "contributors": [],
+    "contributors": [
+        {
+            "name": "Mochammad Andrian Casillasyah",
+            "email": "andriancasilasyah01@gmail.com",
+            "url": "https://github.com/SirAndriC"
+        },
+        {
+            "name": "Vedanta Sanggra Dinata",
+            "email": "vsanggtn@gmail.com",
+            "url": "https://github.com/Venatta"
+        }
+    ],
     "devDependencies": {
         "@babel/core": "^7.24.7",
         "@babel/preset-env": "^7.24.7",
